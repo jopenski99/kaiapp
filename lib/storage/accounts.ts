@@ -3,7 +3,13 @@ import { Account } from "@/lib/models/accounts";
 
 export async function getAccounts(): Promise<Account[]> {
   const db = await getDB();
-  return db.getAll("accounts");
+  const accounts = await db.getAll("accounts");
+  const accountArray = accounts.map(acc => ({
+    label: acc.name,
+    value: acc.id,
+    ...acc
+  }));
+  return accountArray;
 }
 
 export async function saveAccount(account: Account) {

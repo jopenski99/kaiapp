@@ -24,6 +24,7 @@ export default function AssetDetailPage() {
 
   const [asset, setAsset] = useState<Asset | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
+ 
   const summary =
     asset && payments
       ? computePaymentSummary(asset, payments)
@@ -43,17 +44,19 @@ export default function AssetDetailPage() {
       </AppShell>
     );
   }
-
   return (
     <AppShell title="Asset" showBack>
       <div className="space-y-6">
         <AssetHeader asset={asset} />
-
+        {summary && <PaymentSummaryCard summary={summary} asset={asset} />}
         <ObligationSummary asset={asset} />
-        {summary && <PaymentSummaryCard summary={summary} />}
+
 
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Payments</h2>
+          <h2 className="text-lg font-semibold">
+            Payments
+
+          </h2>
           <PaymentList payments={payments} />
         </div>
 
@@ -61,7 +64,8 @@ export default function AssetDetailPage() {
           onClick={() =>
             router.push(`/locked/assets/${asset.id}/payments/new`)
           }
-          className="w-full p-4 rounded-xl bg-teal-500 text-black font-semibold"
+          className={`w-full p-2 rounded-2xl ${summary?.remaining > 0 ? "bg-teal-500 text-black" : "bg-gray-800 text-gray-400"} font-semibold`}
+          disabled={summary.remaining > 0 ? false : true}
         >
           Add Payment
         </button>

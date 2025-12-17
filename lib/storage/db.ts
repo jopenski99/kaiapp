@@ -23,6 +23,14 @@ export async function getDB() {
         if (!db.objectStoreNames.contains("accounts")) {
           db.createObjectStore("accounts", { keyPath: "id" });
         }
+        if (!db.objectStoreNames.contains("expenses")) {
+          const store = db.createObjectStore("expenses", {
+            keyPath: "id",
+          });
+
+          store.createIndex("date", "date");
+          store.createIndex("category", "category");
+        }
       },
     });
   }

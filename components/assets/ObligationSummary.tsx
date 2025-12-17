@@ -9,7 +9,7 @@ export default function ObligationSummary({ asset }: { asset: Asset }) {
 
   return (
     <div className="bg-neutral-900 rounded-2xl p-4 space-y-2">
-      <h3 className="text-sm text-neutral-400">Loan Details</h3>
+      <h3 className="text-sm text-neutral-400">Loan Details </h3>  
 
       <div className="flex justify-between text-sm">
         <span>Total Amount</span>

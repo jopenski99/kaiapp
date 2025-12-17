@@ -7,8 +7,9 @@ import { getAccounts } from "@/lib/storage/accounts";
 import { Account } from "@/lib/models/accounts";
 
 import { savePayment } from "@/lib/storage/payments";
-
+import CustomSelect from "@/components/ui/CustomSelect";
 import AccountSelect from "@/components/accounts/AccountSelect";
+import AppShell from "@/components/layout/AppShell";
 
 export default function AddPaymentPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function AddPaymentPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [accountId, setAccountId] = useState<string>();
 
-  console.log(accounts);
+
   useEffect(() => {
     getAccounts().then(setAccounts);
   }, []);
@@ -38,33 +39,44 @@ export default function AddPaymentPage() {
   }
 
   return (
-    <div className="p-4 space-y-4">
-      <h1 className="text-xl font-bold">Add Payment</h1>
-
-      <input
-        className="border p-2 w-full"
-        placeholder="Amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-
-      <input
-        className="border p-2 w-full"
-        placeholder="Reference Number"
-        value={reference}
-        onChange={(e) => setReference(e.target.value)}
-      />
-      <AccountSelect
+    <AppShell title="Add Payment" showBack>
+      <div className="p-4 space-y-4">
+        <label className="flex items-center gap-2 w-full">
+          <div className="w-2/10">Amount</div>
+          <input
+            className="input"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </label>
+        <label className="flex items-center gap-2 w-full">
+          <div className="w-2/10">Amount</div>
+          <input
+            className="input"
+            placeholder="Reference Number"
+            value={reference}
+            onChange={(e) => setReference(e.target.value)}
+          />
+        </label>
+        <CustomSelect
+          value={accountId}
+          label="Account"
+          options={accounts}
+          onChange={setAccountId}
+        />
+        {/* <AccountSelect
         value={accountId}
         onChange={setAccountId}
       />
-
-      <button
-        onClick={handleSave}
-        className="bg-black text-white px-4 py-2 rounded"
-      >
-        Save Payment
-      </button>
-    </div>
+ */}
+        <button
+          onClick={handleSave}
+          className="text-white px-4 py-2 rounded-2xl bg-teal-500"
+        >
+          Save Payment
+        </button>
+      </div>
+    </AppShell>
   );
 }

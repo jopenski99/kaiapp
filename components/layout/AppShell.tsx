@@ -33,7 +33,7 @@ export default function AppShell({
           router.push(route);
         }}
       />
-      <main className="flex-1 overflow-y-auto px-4 pb-24 pt-4">
+      <main className="flex-1 overflow-y-auto px-4 pb-24 pt-18">
         
         {children}
       </main>

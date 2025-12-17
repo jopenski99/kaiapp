@@ -38,6 +38,11 @@ export default function NewAssetPage() {
     await saveAsset(asset);
     router.replace("/locked/assets");
   }
+  function handlerNumberChange(e, funct) {
+
+    const value = Number(e.target.value);
+    funct(value);
+  }
 
   return (
     <AppShell title="New Asset" showBack>
@@ -45,9 +50,9 @@ export default function NewAssetPage() {
 
         {/* Name */}
         <label className="flex items-center gap-2 w-full">
-          <div className="w-2/10">Value</div>
+          <div className="w-/10">Name</div>
           <input
-            className="w-full border p-2 rounded rounded-xl"
+            className="input"
             placeholder="Asset name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -59,24 +64,13 @@ export default function NewAssetPage() {
           label="Type"
           onChange={setType}
         />
-        {/*  <select
-          className="w-full border p-2 rounded"
-          value={type}
-          onChange={(e) => setType(e.target.value as AssetType)}
-        >
-          <option value="PHONE">Phone</option>
-          <option value="MOTORCYCLE">Motorcycle</option>
-          <option value="VEHICLE">Vehicle</option>
-          <option value="LAND">Land</option>
-          <option value="OTHER">Other</option>
-        </select> */}
 
         {/* Value */}
         <label className="flex items-center gap-2 w-full">
           <div className="w-2/10">Value</div>
           <input
             type="number"
-            className="w-full border p-2 rounded-xl flex-1"
+            className="input"
             placeholder="Estimated value"
             value={value}
             onChange={(e) => setValue(Number(e.target.value))}
@@ -95,36 +89,44 @@ export default function NewAssetPage() {
 
         {hasObligation && (
           <div className="space-y-2 border border-neutral-800 p-3 rounded-xl">
-            <input
-              type="number"
-              className="w-full border p-2 rounded"
-              placeholder="Total amount"
-              value={totalAmount}
-              onChange={(e) => setTotalAmount(Number(e.target.value))}
-            />
-
-            <input
-              type="number"
-              className="w-full border p-2 rounded"
-              placeholder="Monthly due"
-              value={monthlyDue}
-              onChange={(e) => setMonthlyDue(Number(e.target.value))}
-            />
-
-            <input
-              type="number"
-              className="w-full border p-2 rounded"
-              placeholder="Term (months)"
-              value={termMonths}
-              onChange={(e) => setTermMonths(Number(e.target.value))}
-            />
+            < div className="justify-center flex"> Obligation Details</div>
+            <label className="flex items-center gap-2 w-full">
+              <div className="w-2/10">Amount</div>
+              <input
+                type="number"
+                className="input"
+                placeholder="Total amount"
+                value={totalAmount ? totalAmount.toString() : "0"}
+                onChange={(e) => handlerNumberChange(e, setTotalAmount)}
+              />
+            </label>
+            <label className="flex items-center gap-2 w-full">
+              <div className="w-2/10">Monthly</div>
+              <input
+                type="number"
+                className="input"
+                placeholder="Monthly due"
+                 value={monthlyDue ? monthlyDue.toString() : "0"}
+                onChange={(e) =>  handlerNumberChange(e, setMonthlyDue)}
+              />
+            </label>
+            <label className="flex items-center gap-2 w-full">
+              <div className="w-2/10">Months</div>
+              <input
+                type="number"
+                className="input"
+                placeholder="Term (months)"
+                value={termMonths ? termMonths.toString() : "0"}
+                onChange={(e) => handlerNumberChange(e, setTermMonths)}
+              />
+            </label>
           </div>
         )}
 
         {/* Save */}
         <button
           onClick={handleCreate}
-          className="w-full bg-black text-white p-2 rounded"
+          className="w-full bg-teal-500 text-black font-semibold p-2 rounded-2xl"
         >
           Save Asset
         </button>

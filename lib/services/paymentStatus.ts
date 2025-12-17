@@ -1,12 +1,11 @@
+import { PaymentStatus } from "@/lib/models/assets";
+
 export function getPaymentStatus(
   totalPaid: number,
-  totalDue: number
-) {
-  if (totalPaid >= totalDue * 1.5)
-    return { label: "ADVANCED", color: "text-blue-600" };
-
-  if (totalPaid >= totalDue)
-    return { label: "PAID", color: "text-green-600" };
-
-  return { label: "OVERDUE", color: "text-red-600" };
+  expectedPaid: number
+): PaymentStatus {
+  if (totalPaid >= expectedPaid) return "PAID";
+  if (totalPaid >= expectedPaid - 1) return "UPCOMING";
+  if (totalPaid < expectedPaid) return "OVERDUE";
+  return "DUE";
 }

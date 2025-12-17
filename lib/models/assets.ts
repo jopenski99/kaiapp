@@ -8,7 +8,7 @@ export type AssetType =
   | "LAND"
   | "HOUSE"
   | "OTHER";
-
+export type PaymentStatus = "PAID" | "UPCOMING" | "DUE" | "OVERDUE";
 /**
  * Payment frequency
  */
@@ -18,11 +18,13 @@ export type PaymentFrequency = "MONTHLY" | "WEEKLY" | "ANNUAL";
  * Fixed-term obligation
  */
 export interface Obligation {
-  totalAmount: number;        // Total payable
-  monthlyDue: number;         // Expected monthly payment
+  totalAmount: number; // Total payable
+  monthlyDue: number; // Expected monthly payment
   frequency: PaymentFrequency;
-  startDate: string;          // ISO date
-  termMonths: number;  // 
+  dueDay: number; // Day of month for monthly payments
+  startDate: string; // ISO date
+  haltedAt?: string|null,
+  termMonths: number; //
 }
 
 /**

@@ -3,7 +3,7 @@
 import { Payment } from "@/lib/models/payments";
 
 export default function PaymentItem({ payment }: { payment: Payment }) {
-
+  console.log(payment);
   return (
     <div className="bg-neutral-900 rounded-xl p-4 flex justify-between items-center">
       <div className="space-y-1">

@@ -13,7 +13,7 @@ export default function AssetCard({ asset, onClick }: Props) {
   return (
     <div
       onClick={onClick}
-      className="bg-neutral-900 rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-neutral-800 transition"
+      className="bg-neutral-900 rounded-2xl p-3 flex justify-between items-center cursor-pointer hover:bg-neutral-800 transition"
     >
       <div className="space-y-1">
         <p className="text-sm text-neutral-400">{asset.type}</p>

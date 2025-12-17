@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 const navItems = [
   { label: "Home", icon: Home, href: "/locked/dashboard" },
   { label: "Assets", icon: Wallet, href: "/locked/assets" },
-  { label: "Payments", icon: CreditCard, href: "/locked/assets" },
+  { label: "Expenses", icon: CreditCard, href: "/locked/expense" },
 ];
 
 export default function BottomNav() {

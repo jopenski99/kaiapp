@@ -23,8 +23,8 @@ export default function TopBar({
   const router = useRouter();
 
   return (
-    <header className="h-14 px-4 flex items-center justify-between border-b border-neutral-800">
-      <div className="flex items-center gap-3 w-full">
+    <header className="bg-black w-full fixed h-14 px-4 flex items-center justify-between border-b border-neutral-800" style={{zIndex: 999}}>
+      <div className="flex items-center gap-3 w-full bg-black">
 
 
         <button
