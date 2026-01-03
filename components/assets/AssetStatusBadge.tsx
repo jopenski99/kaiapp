@@ -30,9 +30,9 @@ export default function AssetStatusBadge({ asset }: { asset: Asset }) {
     }, [asset.id]);
     return (
         <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${summary.status.color}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${summary?.status.color }`}
         >
-            {summary.status.label}
+            {summary?.status.label}
         </span>
     );
 }

@@ -2,6 +2,7 @@ import { getDB } from "./db";
 import { Account } from "@/lib/models/accounts";
 
 export async function getAccounts(): Promise<Account[]> {
+
   const db = await getDB();
   const accounts = await db.getAll("accounts");
   const accountArray = accounts.map(acc => ({
@@ -9,6 +10,7 @@ export async function getAccounts(): Promise<Account[]> {
     value: acc.id,
     ...acc
   }));
+
   return accountArray;
 }
 

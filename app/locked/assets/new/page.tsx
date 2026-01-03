@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { saveAsset } from "@/lib/storage/assets";
-import { Asset, AssetType } from "@/lib/models/assets";
+import { Asset, AssetType, AssetTypeOptions } from "@/lib/models/assets";
 import AppShell from "@/components/layout/AppShell";
 import CustomSelect from "@/components/ui/CustomSelect";
 export default function NewAssetPage() {
@@ -13,10 +13,11 @@ export default function NewAssetPage() {
   const [type, setType] = useState<AssetType>("OTHER");
   const [value, setValue] = useState<number>(0);
   const [hasObligation, setHasObligation] = useState(false);
-
+  const [dueDay, setDueDay] = useState<number>(1);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [monthlyDue, setMonthlyDue] = useState<number>(0);
   const [termMonths, setTermMonths] = useState<number>(0);
+
   async function handleCreate() {
     const asset: Asset = {
       id: crypto.randomUUID(),
@@ -29,6 +30,7 @@ export default function NewAssetPage() {
         totalAmount,
         monthlyDue,
         frequency: "MONTHLY",
+        dueDay,
         startDate: new Date().toISOString(),
         termMonths
       } : undefined,
@@ -38,8 +40,7 @@ export default function NewAssetPage() {
     await saveAsset(asset);
     router.replace("/locked/assets");
   }
-  function handlerNumberChange(e, funct) {
-
+  function handlerNumberChange(e: React.ChangeEvent<HTMLInputElement>, funct: (value: number) => void) {
     const value = Number(e.target.value);
     funct(value);
   }
@@ -60,8 +61,9 @@ export default function NewAssetPage() {
         </label>
         {/* Type */}
         <CustomSelect
+          label="Asset Type"
+          options={AssetTypeOptions}
           value={type}
-          label="Type"
           onChange={setType}
         />
 
@@ -106,8 +108,18 @@ export default function NewAssetPage() {
                 type="number"
                 className="input"
                 placeholder="Monthly due"
-                 value={monthlyDue ? monthlyDue.toString() : "0"}
-                onChange={(e) =>  handlerNumberChange(e, setMonthlyDue)}
+                value={monthlyDue ? monthlyDue.toString() : "0"}
+                onChange={(e) => handlerNumberChange(e, setMonthlyDue)}
+              />
+            </label>
+            <label className="flex items-center gap-2 w-full">
+              <div className="w-2/10">Due day</div>
+              <input
+                type="number"
+                className="input"
+                placeholder="Day of month"
+                value={dueDay}
+                onChange={(e) => handlerNumberChange(e, setDueDay)}
               />
             </label>
             <label className="flex items-center gap-2 w-full">

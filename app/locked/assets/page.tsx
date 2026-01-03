@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Asset } from "@/lib/models/assets";
+import { PaymentStatusLabel } from "@/lib/models/payments";
 import { getAssets } from "@/lib/storage/assets";
 import { getPaymentsByAsset } from "@/lib/storage/payments";
 import { allocatePayments } from "@/lib/services/paymentAllocator";
 /* import { getPaymentStatus } from "@/lib/services/paymentStatus"; */
 import { computePaymentSummary } from "@/lib/services/paymentSummary";
 
-import AppShell from "@/components/layout/AppShell";
+import AppShell from "@/components/layout/AppShell"; 
 import AssetCard from "@/components/assets/AssetCard";
 import CustomSelect from "@/components/ui/CustomSelect";
 import PaymentsPage from "./[id]/payments/page";
@@ -20,7 +21,7 @@ export default function AssetsPage() {
   const [summaries, setSummaries] = useState<Record<string, any>>({});
   const router = useRouter();
 
-  const order = {
+  const order:Record<PaymentStatusLabel, number> = {
     Overdue: 1,
     Ongoing: 2,
     Completed: 3,
@@ -44,18 +45,18 @@ export default function AssetsPage() {
           payments
         );
       }
-      console.log(assetPayments)
+
       const sortedAssets = [...storedAssets].sort( (a, b) => {
       
         const summaryA = computePaymentSummary(a, assetPayments[a.id] ?? []);
         const summaryB = computePaymentSummary(b, assetPayments[b.id] ?? []);
 
-        console.log(summaryA.status.label)
+
         return (order[summaryA.status.label] ?? 99)
           - (order[summaryB.status.label] ?? 99);
         
       });
-      console.log(sortedAssets)
+
       setAssets(sortedAssets);
       setSummaries(map);
 

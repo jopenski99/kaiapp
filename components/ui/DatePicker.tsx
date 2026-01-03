@@ -9,6 +9,16 @@ const months = [
 
 type Mode = "calendar" | "dropdown";
 
+interface DatePickerModeProps {
+    year: number;
+    month: number;
+    day: number;
+    setYear: (year: number) => void;
+    setMonth: (month: number) => void;
+    setDay: (day: number) => void;
+    daysInMonth: number;
+}
+
 export default function DatePicker({
     value,
     onChange,
@@ -49,7 +59,7 @@ export default function DatePicker({
         year, month, day,
         setYear, setMonth, setDay,
         daysInMonth
-    }) {
+    }: DatePickerModeProps) {
         const years = Array.from(
             { length: 50 },
             (_, i) => new Date().getFullYear() - i
@@ -93,7 +103,7 @@ export default function DatePicker({
         year, month, day,
         setYear, setMonth, setDay,
         daysInMonth
-    }) {
+    }: DatePickerModeProps) {
         const firstDay = new Date(year, month, 1).getDay();
         const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
@@ -101,9 +111,9 @@ export default function DatePicker({
             <div className="text-white">
                 {/* Header */}
                 <div className="mb-2 flex items-center justify-between">
-                    <button onClick={() => setMonth(m => m - 1)}>&lt;</button>
+                    <button onClick={() => setMonth(month - 1)}>&lt;</button>
                     <span>{months[month]} {year}</span>
-                    <button onClick={() => setMonth(m => m + 1)}>&gt;</button>
+                    <button onClick={() => setMonth(month + 1)}>&gt;</button>
                 </div>
 
                 {/* Grid */}

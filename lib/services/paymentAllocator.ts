@@ -1,5 +1,5 @@
-import { Payment } from "@/lib/models/payment";
-import { Obligation } from "@/lib/models/asset";
+import { Payment } from "@/lib/models/payments";
+import { Obligation } from "@/lib/models/assets";
 
 export interface AllocationResult {
   totalPaid: number;

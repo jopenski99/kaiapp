@@ -18,7 +18,7 @@ export default function AddPaymentPage() {
   const [amount, setAmount] = useState("");
   const [reference, setReference] = useState("");
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [accountId, setAccountId] = useState<string>();
+  const [accountId, setAccountId] = useState<string>("");
 
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default function AddPaymentPage() {
   async function handleSave() {
     await savePayment({
       id: crypto.randomUUID(),
+      accountName: accounts.find(a => a.id === accountId)?.name || "",
       assetId: id,
       amount: Number(amount),
       reference,
@@ -60,9 +61,9 @@ export default function AddPaymentPage() {
           />
         </label>
         <CustomSelect
-          value={accountId}
-          label="Account"
+          label="Asset Type"
           options={accounts}
+          value={accountId}
           onChange={setAccountId}
         />
         {/* <AccountSelect
@@ -72,7 +73,7 @@ export default function AddPaymentPage() {
  */}
         <button
           onClick={handleSave}
-          className="text-white px-4 py-2 rounded-2xl bg-teal-500"
+          className="text-white px-4 py-2 rounded-2xl bg-teal-500 w-full font-semibold"
         >
           Save Payment
         </button>

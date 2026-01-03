@@ -1,21 +1,27 @@
-import { Payment } from "@/lib/models/payments";
+import { Payment, PaymentStatusLabel, PaymentSummary } from "@/lib/models/payments";
 import { Asset, Obligation } from "@/lib/models/assets";
 
-export interface PaymentSummary {
-  totalPaid: number;
-  remaining: number;
-  monthsCovered: number;
-}
+
 
 export function computePaymentSummary(
   asset: Asset,
   payments: Payment[]
-) {
+): PaymentSummary {
+  if (!asset.obligation) {
+    return {
+      totalPaid: 0,
+      expectedPaid: 0,
+      monthsCovered: 0,
+      remaining: 0,
+      status: { label: "Halted" as PaymentStatusLabel, color: "text-gray-600" },
+    };
+  }
+
   const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
   const tempRemaining = Math.max(asset.obligation.totalAmount - totalPaid, 0);
   const remaining = isNaN(tempRemaining) ? 0 : tempRemaining;
   const monthsElapsed = monthsBetween(
-    new Date(asset.startDate),
+    new Date(asset.obligation.startDate),
     new Date()
   );
 
@@ -24,7 +30,7 @@ export function computePaymentSummary(
 
   const monthsCovered = Math.floor(Number(totalPaid) / Number(asset.obligation.monthlyDue));
 
-  const status = remaining > 0 ? {label : 'Ongoing', color : 'text-yellow-600'} : {label : 'Completed', color : 'text-green-600'};
+  const status = remaining > 0 ? {label : 'Ongoing' as PaymentStatusLabel, color : 'text-yellow-600'} : {label : 'Completed' as PaymentStatusLabel, color : 'text-green-600'};
   return {
     totalPaid,
     expectedPaid,

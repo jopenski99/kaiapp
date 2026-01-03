@@ -1,6 +1,6 @@
 "use client";
 
-import { PaymentSummary } from "@/lib/services/paymentSummary";
+import { PaymentSummary } from "@/lib/models/payments";
 import { Asset } from "@/lib/models/assets";
 import AssetStatusBadge from "@/components/assets/AssetStatusBadge";
 export default function PaymentSummaryCard({

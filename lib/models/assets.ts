@@ -8,6 +8,16 @@ export type AssetType =
   | "LAND"
   | "HOUSE"
   | "OTHER";
+
+export const AssetTypeOptions: { label: string; value: AssetType }[] = [
+  { label: "Phone", value: "PHONE" },
+  { label: "Motorcycle", value: "MOTORCYCLE" },
+  { label: "Vehicle", value: "VEHICLE" },
+  { label: "Land", value: "LAND" },
+  { label: "House", value: "HOUSE" },
+  { label: "Other", value: "OTHER" },
+];
+
 export type PaymentStatus = "PAID" | "UPCOMING" | "DUE" | "OVERDUE";
 /**
  * Payment frequency

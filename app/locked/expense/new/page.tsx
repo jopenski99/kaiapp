@@ -31,7 +31,7 @@ export default function CostTrackingPage() {
         if (!expense.category || !expense.amount || !expense.date) {
             throw new Error("All fields except description are required");
         }
-        console.table(expense);
+
         await addExpense(expense);
     }
 
@@ -43,7 +43,7 @@ export default function CostTrackingPage() {
 
                 <label className="flex items-center gap-2 w-full">
                     <div className="w-3/10">Date</div>
-                   <DatePicker mode="datepicker" />
+                   <DatePicker mode="calendar" />
                 </label>
                 {/* Add Expense */}
                 <CustomSelect
