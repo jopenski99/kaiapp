@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'package*.json'
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   bump-version:
@@ -13,6 +19,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
@@ -24,6 +31,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git config --global user.signingkey ""
 
       - name: Bump version
         run: |
@@ -31,4 +39,10 @@ jobs:
 
       - name: Push changes
         run: |
-          git push --follow-tags
+          git push origin main --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com

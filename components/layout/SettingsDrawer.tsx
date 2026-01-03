@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-
+import pkg from "@/package.json";
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -34,6 +34,7 @@ export default function SettingsDrawer({ open, onClose, onSelect }: Props) {
 
         {/* Menu */}
         <nav className="p-4 space-y-2">
+          <div className="w-full">v{pkg.version }</div>
           <button
             className="w-full text-left p-2 rounded hover:bg-gray-100"
             onClick={() => onSelect("/locked/settings/accounts")}
