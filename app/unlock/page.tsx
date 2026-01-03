@@ -2,6 +2,8 @@
 
 import { useAppLock } from "@/lib/providers/AppLockProvider";
 import { biometricUnlock, hasPasskey, setupPasskey } from "@/lib/security/biometric";
+/* import '@/components/ui/styles/background.css'
+import '@/lib/helpers/background.js' */
 
 export default function UnlockPage() {
   const { unlock } = useAppLock();
@@ -24,6 +26,7 @@ export default function UnlockPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center">
+ {/*      <canvas></canvas> */}
       <div className="text-center">
         <h1 className="text-2xl font-bold mb-4">Asset Manager</h1>
 

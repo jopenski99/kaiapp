@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import AppShell from "@/components/layout/AppShell";
 import { getAllExpenses } from "@/lib/storage/expense";
 import { Expense } from "@/lib/models/expense";
+import {normalizeCase} from "@/lib/helpers/string"; 
 // Mock data – replace with IndexedDB query
 
 
@@ -72,14 +73,14 @@ export default function ExpensePage() {
                     </button>
                 </div>
                 {/* Expense List */}
-                <div className="max-h-100 overflow-y-scroll mt-38">
+                <div className="max-h-140 overflow-y-scroll mt-38">
                     {sorted.map(exp => (
                         <div
                             key={exp.id}
                             className="flex items-center justify-between rounded-xl border border-gray-800 bg-black p-3 my-1"
                         >
                             <div>
-                                <p className="font-medium">{exp.category}</p>
+                                <p className="font-medium">{normalizeCase(exp.category.replaceAll('_',' '))}</p>
                                 <p className="text-sm"> {exp.description} </p>
                                 <p className="text-xs opacity-60">
                                     {new Date(exp.date).toLocaleDateString()}

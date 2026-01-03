@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import pkg from "@/package.json";
+import { useAppLock } from "@/lib/providers/AppLockProvider";
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function SettingsDrawer({ open, onClose, onSelect }: Props) {
+  const {lock} = useAppLock()
   return (
     <>
       {/* Overlay */}
@@ -34,12 +36,18 @@ export default function SettingsDrawer({ open, onClose, onSelect }: Props) {
 
         {/* Menu */}
         <nav className="p-4 space-y-2">
-          <div className="w-full">v{pkg.version }</div>
+          <div className="w-full">v{pkg.version}</div>
           <button
             className="w-full text-left p-2 rounded hover:bg-gray-100"
             onClick={() => onSelect("/locked/settings/accounts")}
           >
             Accounts
+          </button>
+          <button
+            className="w-full text-left p-2 rounded hover:bg-gray-100 bottom-10 fixed left-5" 
+            onClick={() => lock()}
+          >
+            Lock
           </button>
         </nav>
       </aside>
