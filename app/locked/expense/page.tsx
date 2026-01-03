@@ -1,18 +1,27 @@
 "use client";
-
-import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import AppShell from "@/components/layout/AppShell";
+import { getAllExpenses } from "@/lib/storage/expense";
+import { Expense } from "@/lib/models/expense";
 // Mock data – replace with IndexedDB query
-const expenses = [
-    { id: 1, amount: 250, category: "Table Food", date: new Date() },
-    { id: 2, amount: 120, category: "Transportation", date: new Date() },
-    { id: 3, amount: 900, category: "Motorcycle Repair", date: new Date(Date.now() - 2 * 86400000) },
-    { id: 4, amount: 300, category: "Dog Food", date: new Date(Date.now() - 5 * 86400000) },
-];
+
 
 export default function ExpensePage() {
     const today = new Date();
+    const router = useRouter();
+    const [expenses, setExpense] = useState<Expense[]>([]);
+    
+    useEffect(() => {
+         async function load() {
+            const storedExpense = await getAllExpenses();
+            setExpense(storedExpense);
+        }
+        load();
+    }, []);
 
+    console.log("Expenses:", expenses);
     const { todayTotal, weekTotal, sorted } = useMemo(() => {
         const startOfWeek = new Date(today);
         startOfWeek.setDate(today.getDate() - 6);
@@ -34,11 +43,11 @@ export default function ExpensePage() {
             weekTotal: weekSum,
             sorted: [...expenses].sort((a, b) => +new Date(b.date) - +new Date(a.date))
         };
-    }, []);
+    }, [expenses]);
 
     return (
         <AppShell title="Expense" showBack>
-            <div className="min-h-screen bg-black text-white">
+            <div className="min-h-screen text-white">
                 {/* Summary Cards */}
                 <div className="fixed top-11 left-0 right-0 z-10 bg-black p-4 pt-8">
                     <div className="grid grid-cols-2 gap-4">
@@ -53,9 +62,18 @@ export default function ExpensePage() {
                         </div>
                     </div>
                 </div>
-
+                <div className="fixed top-45 right-5 flex items-center justify-end self-right">
+                    <button
+                        onClick={() =>
+                            router.push(`/locked/expense/new`)
+                        }
+                        className="flex items-center gap-2 px-2 py-1.5 rounded-2xl bg-teal-500 text-black font-semibold">
+                        <Plus size={16} />
+                        Add expense
+                    </button>
+                </div>
                 {/* Expense List */}
-                <div className="max-h-96 overflow-y-scroll mt-25">
+                <div className="max-h-96 overflow-y-scroll mt-38">
                     {sorted.map(exp => (
                         <div
                             key={exp.id}

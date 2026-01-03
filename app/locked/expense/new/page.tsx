@@ -1,24 +1,39 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { addExpense } from "@/lib/storage/expense";
 import { ExpenseType, EXPENSE_TYPE_OPTIONS } from "@/lib/models/expense";
 import AppShell from "@/components/layout/AppShell";
 import CustomSelect from "@/components/ui/CustomSelect";
 import DatePicker from "@/components/ui/DatePicker";
-
+import Toggle from "@/components/ui/toggle";
 export default function CostTrackingPage() {
+
+    const router = useRouter();
     const [expenses, setExpenses] = useState<any[]>([]);
     const [category, setCategory] = useState<ExpenseType>("MISC");
     const [amount, setTotalAmount] = useState<number>(0);
     const [description, setDescription] = useState<string>("");
     const [date, setDate] = useState<string>("");
-
-
+    const [isMultiple, setIsMultiple] = useState<boolean>(false);
+    const [id, setId] = useState<string>(crypto.randomUUID());
+    const [expense, setExpense] = useState<any>({
+        id: id,
+        category: category || "MISC",
+        description: description || "",
+        amount: amount,
+        date: date || new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+    });
     useEffect(() => {
 
     }, []);
-
+    function clearExpense() {
+        setId(crypto.randomUUID());
+        setCategory("MISC");
+        setDescription("");
+        setTotalAmount(0);
+    }
     async function handleCreate() {
         const expense = {
             id: crypto.randomUUID(),
@@ -33,6 +48,10 @@ export default function CostTrackingPage() {
         }
 
         await addExpense(expense);
+        clearExpense();
+        if (!isMultiple) {
+            router.push(`/locked/expense`)
+        }
     }
 
     const total = expenses.reduce((s, e) => s + e.amount, 0);
@@ -43,7 +62,7 @@ export default function CostTrackingPage() {
 
                 <label className="flex items-center gap-2 w-full">
                     <div className="w-3/10">Date</div>
-                   <DatePicker mode="calendar" />
+                    <DatePicker mode="calendar" />
                 </label>
                 {/* Add Expense */}
                 <CustomSelect
@@ -73,10 +92,11 @@ export default function CostTrackingPage() {
                         onChange={(e) => setTotalAmount(Number(e.target.value))}
                     />
                 </label>
+                <div className="flex w-full justify-end"><Toggle checked={isMultiple} onChange={setIsMultiple} label="Continues" /></div>
 
                 <button
                     onClick={handleCreate}
-                    className="w-full bg-teal-500 text-black font-semibold p-2 rounded-2xl"
+                    className="w-full bg-teal-500 text-black font-semibold p-2 rounded-2xl mt-3"
                 >
                     Save Expense
                 </button>

@@ -28,8 +28,9 @@ export async function getDB() {
             keyPath: "id",
           });
 
-          store.createIndex("date", "date");
-          store.createIndex("category", "category");
+          store.createIndex("by-date", "date");
+          store.createIndex("by-category", "category");
+          store.createIndex("by-created", "createdAt");
         }
       },
     });
