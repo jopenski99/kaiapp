@@ -28,6 +28,7 @@ export const EXPENSE_TYPE_OPTIONS: { label: string; value: ExpenseType }[] = [
   { label: "School Payments", value: "SCHOOL_PAYMENTS" },
   { label: "House Chores", value: "HOUSE_CHORE_NEEDS" },
   { label: "Hospital Bill", value: "HOSPITAL_BILL" },
+  { label: "Medicine", value: "MEDICINE"},
   { label: "PC Needs", value: "PC_NEEDS" },
   { label: "Misc", value: "MISC" },
 ];
